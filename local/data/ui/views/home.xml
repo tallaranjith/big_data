@@ -1,5 +1,5 @@
 <dashboard showsource="false" script="prettify.js">
-  <label>Home - Ranjith Test - GitHub</label>
+  <label>Home</label>
   <row>
     <html src="docs/home.html" />
   </row>
