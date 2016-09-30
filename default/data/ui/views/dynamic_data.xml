@@ -1,0 +1,74 @@
+<dashboard script="autodiscover.js,customView.js">
+  <label>Insights</label>
+  <search id="bubbleChart">
+    <query>
+      <![CDATA[
+                    index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId | eval categoryId=if(categoryId=="NULL", "GENERAL",categoryId )| stats count by productId, product_name, categoryId | eval productId=product_name, Byte=count | table productId categoryId Byte
+                ]]>
+    </query>
+  </search>
+  <search id="custom">
+    <query>
+      <![CDATA[
+                    index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId | lookup Item_details.csv itemId | eval categoryId=if(categoryId=="NULL", "GENERAL",categoryId ) | stats count by categoryId product_name item_name | eval productId=product_name,itemId=item_name | table categoryId productId itemId count | sort -count limit=30 | fields - count
+                ]]>
+    </query>
+  </search>
+    <search id="customsearch1">
+    <query>
+      <![CDATA[
+                    index=* | lookup Product_pricing.csv productId | eval categoryId=if(categoryId=="NULL","GENERAL",categoryId) | stats count by product_name categoryId
+                ]]>
+    </query>
+  </search>
+      <search id="matchtreesearch">
+    <query>
+      <![CDATA[
+                    | inputlookup wimbledon.csv | stats count by Round Winner Loser W1 L1 W2 L2
+                ]]>
+    </query>
+  </search>
+  <row>
+    <panel>
+      <title>Product sales</title>
+      <html>
+      <div id="bubbleChart2" class="splunk-view" data-require="app/big_data/components/bubblechart/bubblechart" data-options="{                     &quot;managerid&quot;: &quot;bubbleChart&quot;,                     &quot;nameField&quot;: &quot;productId&quot;,                     &quot;categoryField&quot;: &quot;categoryId&quot;,                     &quot;valueField&quot;: &quot;Byte&quot;,                     &quot;height&quot;: 450                  }">
+      </div>
+      </html>
+    </panel>
+    <panel>
+      <title>Item sales by Product | Category wise</title>
+      <html>
+                <div id="wide-content" class="splunk-view" data-require="app/big_data/components/sunburst/sunburst" data-options="{&quot;managerid&quot;:&quot;custom&quot;,&quot;height&quot;:430}">
+                </div>
+            </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Item sales by its Product | Category wise relation</title>
+      <html>
+      <div align="center" valign="middle" id="circlechart" class="splunk-view" 
+        data-require="app/big_data/components/circleChart/circleChart" 
+        data-options='{"managerid":"customsearch1"}'>
+      </div>
+       </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Complete Wimbeldon series results</title>
+      <html>
+         <div id="result" style="margin-left:10px;"/>
+		 <div id="score" style="margin-left:10px; margin-top:5px;"/>
+         
+         
+ 
+            <div align="center" valign="middle" id="matchtree" class="splunk-view" data-require="app/big_data/components/matchTree/matchTree" data-options='{"managerid":"matchtreesearch"}'>
+            </div>
+          	
+         
+        </html>
+    </panel>
+  </row>
+</dashboard>

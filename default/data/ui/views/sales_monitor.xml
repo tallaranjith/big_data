@@ -1,0 +1,37 @@
+<form script="autodiscover.js,customView.js" >
+  <label>Sales Monitor</label>
+<row>
+    <panel>
+      <title>Business Sales Overview</title>
+      <search id="parellecord">
+        <query>
+          <![CDATA[
+                    index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId | lookup Item_details.csv itemId | eval categoryId=if(categoryId=="NULL", "GENERAL",categoryId ) | stats count by categoryId product_name item_name | eval productId=product_name,itemId=item_name | table categoryId productId itemId count | sort -categoryId
+                ]]>
+        </query>
+      </search>
+      <html>
+            <div id="custom" class="splunk-view" data-require="app/big_data/components/parallelcoords/parallelcoords" data-options='{"managerid":"parellecord","height":400}'>
+            </div>
+
+        </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Total Sales</title>
+      <table>
+        <search id="common_query">
+          <query>index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId | lookup Item_details.csv itemId | eval categoryId=if(categoryId=="NULL", "GENERAL",categoryId ) | stats count by categoryId product_name item_name | eval productId=product_name,itemId=item_name | table categoryId productId itemId count | sort categoryId</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="drilldown">none</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="count">15</option>
+      </table>
+    </panel>
+  </row>
+</form>

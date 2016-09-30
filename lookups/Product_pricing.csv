@@ -1,0 +1,17 @@
+productId,product_name,price,sale_price,Code
+BS-AG-G09,Electronics,24.99,19.99,A
+CU-PG-G06,Clothing,39.99,24.99,B
+DB-SG-G01,Foot wear,24.99,16.99,C
+DC-SG-G02,Bags and Wallets,24.99,19.99,D
+FI-AG-G08,Perfumes,9.99,6.99,E
+FS-SG-G03,Jewellery,4.99,1.99,F
+MB-AG-G07,Watches,19.99,16.99,G
+MB-AG-T01,Books,39.99,24.99,H
+PZ-SG-G05,Media,9.99,6.99,I
+SC-MG-G10,Furniture,39.99,24.99,J
+SF-BVS-01,Mobiles,24.99,19.99,K
+SF-BVS-G01,Toys,19.99,16.99,L
+WC-SH-A01,Beauty Care,5.99,2.99,M
+WC-SH-A02,Fitness Equipments,3.99,1.99,N
+WC-SH-G04,Home Appliances,5.99,2.52,O
+WC-SH-T02,Eyewear,6.75,4.52,P

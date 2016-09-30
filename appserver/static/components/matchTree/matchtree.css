@@ -1,0 +1,44 @@
+
+#matchtree {
+  height: 750px;
+  margin-left: 60px;
+}
+
+/* text {
+	fill: white;
+	font-size: 11px;
+	text-anchor: middle;
+	font-weight: 800;
+	cursor: pointer;
+} */
+
+#round-labels text {
+	font-size: 20px;
+	fill: #597459;
+}
+
+#result {
+  position: absolute;
+  left: 0px;
+  top: 20px;
+  width: 400px;
+  font-size: 18px;
+  font-weight: 200;
+}
+
+#score {
+  position: absolute;
+  left: 0px;
+  top: 40px;
+  width: 400px;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+#title {
+  position: absolute;
+  top: 10px;
+}
+#title .large {
+  width: 150px;
+}

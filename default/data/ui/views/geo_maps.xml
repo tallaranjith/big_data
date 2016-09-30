@@ -1,0 +1,116 @@
+<form script="customView.js">
+  <label>Geo Maps</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="dropdown" token="state_token" searchWhenChanged="true">
+      <label>Pick a State</label>
+      <search>
+        <query>| inputlookup geomaps_data.csv | iplocation device_ip | where City != ""| stats count by City lat lon | table City, lat, lon</query>
+      </search>
+      <fieldForLabel>City</fieldForLabel>
+      <fieldForValue>City</fieldForValue>
+      <change>
+        <set token="lat_tok">$row.lat$</set>
+        <set token="lon_tok">$row.lon$</set>
+      </change>
+      <initialValue>Dubai</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <map>
+        <title>Sales selection by State</title>
+        <search>
+          <query>| inputlookup geomaps_data.csv | iplocation device_ip | search lat=$lat_tok$ lon=$lon_tok$ | geostats latfield=lat longfield=lon count by City</query>
+        </search>
+        <option name="mapping.type">marker</option>
+        <option name="mapping.map.center">($lat_tok$,$lon_tok$)</option>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0xDB5800</option>
+        <option name="mapping.choroplethLayer.minimumColor">0x2F25BA</option>
+        <option name="mapping.choroplethLayer.neutralPoint">0</option>
+        <option name="mapping.choroplethLayer.shapeOpacity">0.75</option>
+        <option name="mapping.choroplethLayer.showBorder">1</option>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.map.panning">true</option>
+        <option name="mapping.map.scrollZoom">true</option>
+        <option name="mapping.map.zoom">5</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.showTiles">1</option>
+        <option name="mapping.tileLayer.maxZoom">19</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="mapping.tileLayer.tileOpacity">1</option>
+        <option name="drilldown">all</option>
+        <option name="mapping.tileLayer.url">http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</option>
+      </map>
+    </panel>
+    <panel>
+      <map>
+        <title>Sales by Location</title>
+        <search>
+          <query>index=vedic sourcetype=access_combined_wcookie | table clientip,categoryId,action|iplocation clientip|geostats latfield=lat longfield=lon count by action</query>
+        </search>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0xDB5800</option>
+        <option name="mapping.choroplethLayer.minimumColor">0x2F25BA</option>
+        <option name="mapping.choroplethLayer.neutralPoint">0</option>
+        <option name="mapping.choroplethLayer.shapeOpacity">0.75</option>
+        <option name="mapping.choroplethLayer.showBorder">1</option>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.drilldown">all</option>
+        <option name="mapping.map.center">(0,0)</option>
+        <option name="mapping.map.panning">true</option>
+        <option name="mapping.map.scrollZoom">true</option>
+        <option name="mapping.map.zoom">2</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.showTiles">1</option>
+        <option name="mapping.tileLayer.maxZoom">19</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="mapping.tileLayer.tileOpacity">1</option>
+        <option name="mapping.type">marker</option>
+        <option name="drilldown">none</option>
+        <option name="mapping.tileLayer.url">http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</option>
+      </map>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <map>
+        <title>No. of Failed Purchases across the globe</title>
+        <search>
+          <query>index=vedic "Failed password" | iplocation IP_ADD | geostats latfield=lat longfield=lon count(IP_ADD) by City globallimit=1000 | fields - VALUE</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0xDB5800</option>
+        <option name="mapping.choroplethLayer.minimumColor">0x2F25BA</option>
+        <option name="mapping.choroplethLayer.neutralPoint">0</option>
+        <option name="mapping.choroplethLayer.shapeOpacity">0.75</option>
+        <option name="mapping.choroplethLayer.showBorder">1</option>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.drilldown">all</option>
+        <option name="mapping.map.center">(0,0)</option>
+        <option name="mapping.map.panning">true</option>
+        <option name="mapping.map.scrollZoom">true</option>
+        <option name="mapping.map.zoom">2</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.showTiles">1</option>
+        <option name="mapping.tileLayer.maxZoom">19</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="mapping.tileLayer.tileOpacity">1</option>
+        <option name="mapping.tileLayer.url">http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</option>
+        <option name="mapping.type">marker</option>
+        <option name="drilldown">all</option>
+      </map>
+    </panel>
+  </row>
+</form>

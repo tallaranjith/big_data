@@ -1,0 +1,47 @@
+<dashboard script="autodiscover.js,customView.js">
+  <label>Sales Actions</label>
+  <row>
+    <panel>
+             <search id="customsearch1">
+        <query>
+          <![CDATA[
+                    index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId  | stats count by productId product_name | eval categoryId=product_name,productCount=count| table categoryId productCount
+                ]]>
+        </query>
+      </search>
+      <html>
+       
+        <div id="angles">
+          <input type="hidden" id="angle-from" value="-40" min="-90" max="90"/>
+          <input type="hidden" id="angle-to" value="40" min="-90" max="90"/>
+          <p style="position: absolute; right: 0; top: 0" id="status"></p>
+        </div>
+        
+        <div id="viz" align="center"></div>
+ 
+	  
+        
+        <div align="center" valign="middle" id="custom" class="splunk-view" data-require="app/big_data/components/wordcloud/wordcloud" data-options='{"managerid":"customsearch1","labelField":"categoryId","valueField":"productCount"}'>
+        </div>
+         
+        </html>
+    </panel>
+  </row>
+   <row>
+    <panel>
+      <title>Sales hits</title>
+      <search id="tagcloudsearch">
+        <query>
+          <![CDATA[
+                   index=* sourcetype=access_combined_wcookie | lookup Product_pricing.csv productId | stats count by product_name | rename product_name as categoryId
+                ]]>
+        </query>
+      </search>
+      <html>
+        <div id="tagcloud" class="splunk-view" data-require="app/big_data/components/tagcloud/tagcloud" 
+        data-options='{"minFontSize":5,"maxFontSize":50,"managerid":"tagcloudsearch","valueField":"count","labelField":"categoryId"}'>
+        </div>
+      </html>
+    </panel>
+  </row>
+</dashboard>

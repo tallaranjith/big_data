@@ -1,0 +1,16 @@
+<nav  color="#03A2D6" >
+  <view name="home" default='true' />
+  <view name="about_us" />
+  <collection label="Data Insights">
+	   <view name="dynamic_data" />
+	   <view name="geo_maps"/>
+	   <view name="indicators"/>
+	   <view name="local_pc_monitor" />
+	   <view name="sales_actions"/>
+	   <view name="sales_monitor" />
+	   <view name="calenderChart" />
+  </collection>
+  <view name="alerts" label="Alerts"/>
+  <view name="reports" label="Reports"/>
+  <view name="search" label="Search"/>
+</nav>

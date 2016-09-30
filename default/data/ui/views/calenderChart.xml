@@ -1,0 +1,39 @@
+<form script="autodiscover.js">
+  <label>Sales - Calendar</label>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="dropdown" token="tok_year" searchWhenChanged="false">
+      <label>Please select the available data here</label>
+      <search>
+        <query>index=* sourcetype=access_combined_wcookie | stats count by date_year| fields - count</query>
+      </search>
+      <fieldForLabel>date_year</fieldForLabel>
+      <fieldForValue>date_year</fieldForValue>
+      <default>2016</default>
+    </input>
+    <input type="dropdown" token="tok_action" searchWhenChanged="false">
+      <label>Please select a type of action here</label>
+      <search>
+        <query>index=* sourcetype=access_combined_wcookie | stats count by action | fields - count</query>
+      </search>
+      <fieldForLabel>action</fieldForLabel>
+      <fieldForValue>action</fieldForValue>
+      <default>addtocart</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <search id="calSearch">
+        <query>
+          <![CDATA[
+                    index=* sourcetype=access_combined_wcookie date_year=$tok_year$ action=$tok_action$| timechart count | eval Date=strftime(_time,"%Y-%m-%d") | table Date count
+                ]]>
+        </query>
+      </search>
+      <html>
+       <div style="float: left; padding-top: 70px; font-size: 16px;" border="1px" id="legends" width="30%" align="left"/>    
+ <div align="center" valign="middle" id="chart" class="splunk-view" data-require="app/big_data/components/calendarChart/calendarChart" data-options='{"managerid":"calSearch","date_year":$tok_year$}'>
+</div>
+</html>
+    </panel>
+  </row>
+</form>

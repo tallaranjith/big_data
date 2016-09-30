@@ -1,0 +1,6 @@
+<dashboard showsource="false" script="prettify.js">
+  <label>About Us</label>
+  <row>
+    <html src="docs/about_us.html" />
+  </row>
+</dashboard>
